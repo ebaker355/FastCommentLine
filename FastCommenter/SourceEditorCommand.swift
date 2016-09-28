@@ -24,15 +24,15 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 (range.start.line...range.end.line).forEach { lineIndex in
                     guard lineIndex < invocation.buffer.lines.count else { return }
                     
-                    if let line = invocation.buffer.lines[lineIndex] as? String {
+                    if var line = invocation.buffer.lines[lineIndex] as? String {
                         if !line.hasPrefix("//") {
                             invocation.buffer.lines[lineIndex] = "// \(line)"
                             updatedLines.append(lineIndex)
                         }
                         else {
-                            let offset = line.hasPrefix("// ") ? 3 : 2
-                            let uncommentedLine = line.substring(from: line.index(line.startIndex, offsetBy: offset))
-                            invocation.buffer.lines[lineIndex] = uncommentedLine
+                            let count = line.hasPrefix("// ") ? 3 : 2
+                            line.characters.removeFirst(count)
+                            invocation.buffer.lines[lineIndex] = line
                             updatedLines.append(lineIndex)
                         }
                     }
