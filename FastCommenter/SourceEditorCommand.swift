@@ -26,7 +26,13 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                     
                     if var line = invocation.buffer.lines[lineIndex] as? String {
                         if !line.hasPrefix("//") {
-                            invocation.buffer.lines[lineIndex] = "// \(line)"
+                            var commentString = "// "
+                            if let firstScalar = line.unicodeScalars.first {
+                                if !CharacterSet.alphanumerics.contains(firstScalar) {
+                                    commentString = "//"
+                                }
+                            }
+                            invocation.buffer.lines[lineIndex] = "\(commentString)\(line)"
                             updatedLines.append(lineIndex)
                         }
                         else {
