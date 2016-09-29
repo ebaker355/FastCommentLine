@@ -16,40 +16,59 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
             completionHandler(nil)
         }
 
-        var newSelections = [XCSourceTextRange]()
-        var updatedLines = [Int]()
-        let commentChars = "//"
+        func enumerateSelectedLines(_ block: (String, Int) -> Bool) -> Void {
+            var stop = false
+            invocation.buffer.selections.forEach { selection in
+                guard !stop else { return }
 
-        invocation.buffer.selections.forEach { selection in
-            if let range = selection as? XCSourceTextRange {
-                (range.start.line...range.end.line).forEach { lineIndex in
-                    guard lineIndex < invocation.buffer.lines.count else { return }
+                if let range = selection as? XCSourceTextRange {
+                    (range.start.line ... range.end.line).forEach { lineIndex in
+                        guard !stop, lineIndex < invocation.buffer.lines.count else { return }
 
-                    if var line = invocation.buffer.lines[lineIndex] as? String {
-                        // See if the line needs to be commented or uncommented.
-                        if !line.hasPrefix(commentChars) {
-                            invocation.buffer.lines[lineIndex] = "\(commentChars)\(line)"
-                            updatedLines.append(lineIndex)
-                        }
-                        else {
-                            // Uncomment
-                            line.characters.removeFirst(commentChars.unicodeScalars.count)
-                            invocation.buffer.lines[lineIndex] = line
-                            updatedLines.append(lineIndex)
+                        if let line = invocation.buffer.lines[lineIndex] as? String {
+                            stop = block(line, lineIndex)
                         }
                     }
                 }
-
-                let textRange = XCSourceTextRange()
-                let newPosition = XCSourceTextPosition(line: range.end.line + 1, column: 0)
-                textRange.start = newPosition
-                textRange.end = newPosition
-
-                newSelections.append(textRange)
             }
         }
-        
-        invocation.buffer.selections.setArray(newSelections)
+
+        let commentChars = "//"
+
+        // Examine all lines in the selection to see whether any need to be commented.
+        // If any need to be commented, then comment the whole selection.
+        // Otherwise, uncomment the whole selection.
+
+        var commentSelection = false
+
+        enumerateSelectedLines { line, lineIndex in
+            if !line.hasPrefix(commentChars) {
+                commentSelection = true
+            }
+            return commentSelection
+        }
+
+        var updatedLines = [Int]()
+
+        enumerateSelectedLines { line, lineIndex in
+            var updatedLine = line
+            if commentSelection {
+                updatedLine = "\(commentChars)\(line)"
+            }
+            else {
+                updatedLine.characters.removeFirst(commentChars.unicodeScalars.count)
+            }
+            invocation.buffer.lines[lineIndex] = updatedLine
+            updatedLines.append(lineIndex)
+            return false
+        }
+
+        if updatedLines.count > 0 {
+            let range = XCSourceTextRange()
+            let position = XCSourceTextPosition(line: updatedLines.last! + 1, column: 0)
+            range.start = position
+            range.end = position
+            invocation.buffer.selections.setArray([range])
+        }
     }
-    
 }
