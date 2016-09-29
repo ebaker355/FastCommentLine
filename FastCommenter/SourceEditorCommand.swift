@@ -10,7 +10,7 @@ import Foundation
 import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
-    
+
     func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void ) -> Void {
         defer {
             completionHandler(nil)
@@ -18,26 +18,22 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
         var newSelections = [XCSourceTextRange]()
         var updatedLines = [Int]()
+        let commentChars = "//"
 
         invocation.buffer.selections.forEach { selection in
             if let range = selection as? XCSourceTextRange {
                 (range.start.line...range.end.line).forEach { lineIndex in
                     guard lineIndex < invocation.buffer.lines.count else { return }
-                    
+
                     if var line = invocation.buffer.lines[lineIndex] as? String {
-                        if !line.hasPrefix("//") {
-                            var commentString = "// "
-                            if let firstScalar = line.unicodeScalars.first {
-                                if !CharacterSet.alphanumerics.contains(firstScalar) {
-                                    commentString = "//"
-                                }
-                            }
-                            invocation.buffer.lines[lineIndex] = "\(commentString)\(line)"
+                        // See if the line needs to be commented or uncommented.
+                        if !line.hasPrefix(commentChars) {
+                            invocation.buffer.lines[lineIndex] = "\(commentChars)\(line)"
                             updatedLines.append(lineIndex)
                         }
                         else {
-                            let count = line.hasPrefix("// ") ? 3 : 2
-                            line.characters.removeFirst(count)
+                            // Uncomment
+                            line.characters.removeFirst(commentChars.unicodeScalars.count)
                             invocation.buffer.lines[lineIndex] = line
                             updatedLines.append(lineIndex)
                         }
@@ -52,7 +48,7 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
                 newSelections.append(textRange)
             }
         }
-
+        
         invocation.buffer.selections.setArray(newSelections)
     }
     
