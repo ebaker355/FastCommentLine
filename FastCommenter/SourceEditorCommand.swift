@@ -11,7 +11,7 @@ import XcodeKit
 
 class SourceEditorCommand: NSObject, XCSourceEditorCommand {
 
-    func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void ) -> Void {
+    func perform(with invocation: XCSourceEditorCommandInvocation, completionHandler: @escaping (Error?) -> Void) -> Void {
         defer {
             completionHandler(nil)
         }
@@ -53,10 +53,11 @@ class SourceEditorCommand: NSObject, XCSourceEditorCommand {
         enumerateSelectedLines { line, lineIndex in
             var updatedLine = line
             if commentSelection {
+
                 updatedLine = "\(commentChars)\(line)"
-            }
-            else {
-                updatedLine.characters.removeFirst(commentChars.unicodeScalars.count)
+            } else {
+
+                updatedLine.removeFirst(commentChars.unicodeScalars.count)
             }
             invocation.buffer.lines[lineIndex] = updatedLine
             updatedLines.append(lineIndex)

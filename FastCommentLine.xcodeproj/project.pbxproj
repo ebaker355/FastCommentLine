@@ -10,10 +10,11 @@
 		07088B261D9BFDF800B205D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07088B251D9BFDF800B205D8 /* AppDelegate.swift */; };
 		07088B281D9BFDF800B205D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07088B271D9BFDF800B205D8 /* Assets.xcassets */; };
 		07088B2B1D9BFDF800B205D8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07088B291D9BFDF800B205D8 /* MainMenu.xib */; };
-		07088B391D9BFE2C00B205D8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07088B381D9BFE2C00B205D8 /* Cocoa.framework */; };
 		07088B3E1D9BFE2C00B205D8 /* SourceEditorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07088B3D1D9BFE2C00B205D8 /* SourceEditorExtension.swift */; };
 		07088B401D9BFE2C00B205D8 /* SourceEditorCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07088B3F1D9BFE2C00B205D8 /* SourceEditorCommand.swift */; };
 		07088B441D9BFE2C00B205D8 /* FastCommenter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 07088B361D9BFE2C00B205D8 /* FastCommenter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		29CDA0CA2566C42D00B4FE39 /* XcodeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29CDA0C92566C42D00B4FE39 /* XcodeKit.framework */; };
+		29CDA0CB2566C42D00B4FE39 /* XcodeKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 29CDA0C92566C42D00B4FE39 /* XcodeKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		29CDA0C72566C42500B4FE39 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				29CDA0CB2566C42D00B4FE39 /* XcodeKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +64,7 @@
 		07088B3D1D9BFE2C00B205D8 /* SourceEditorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorExtension.swift; sourceTree = "<group>"; };
 		07088B3F1D9BFE2C00B205D8 /* SourceEditorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditorCommand.swift; sourceTree = "<group>"; };
 		07088B411D9BFE2C00B205D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29CDA0C92566C42D00B4FE39 /* XcodeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XcodeKit.framework; path = Library/Frameworks/XcodeKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07088B391D9BFE2C00B205D8 /* Cocoa.framework in Frameworks */,
+				29CDA0CA2566C42D00B4FE39 /* XcodeKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +119,7 @@
 		07088B371D9BFE2C00B205D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				29CDA0C92566C42D00B4FE39 /* XcodeKit.framework */,
 				07088B381D9BFE2C00B205D8 /* Cocoa.framework */,
 			);
 			name = Frameworks;
@@ -159,6 +173,7 @@
 				07088B321D9BFE2C00B205D8 /* Sources */,
 				07088B331D9BFE2C00B205D8 /* Frameworks */,
 				07088B341D9BFE2C00B205D8 /* Resources */,
+				29CDA0C72566C42500B4FE39 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -181,12 +196,10 @@
 				TargetAttributes = {
 					07088B211D9BFDF800B205D8 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 7CRPKLHC7G;
 						ProvisioningStyle = Automatic;
 					};
 					07088B351D9BFE2C00B205D8 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 7CRPKLHC7G;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -196,6 +209,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -309,12 +323,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -352,10 +367,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -366,12 +382,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7CRPKLHC7G;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FastCommentLine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.duneparksoftware.FastCommentLine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -382,12 +398,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7CRPKLHC7G;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FastCommentLine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.duneparksoftware.FastCommentLine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -397,14 +413,14 @@
 				CODE_SIGN_ENTITLEMENTS = FastCommenter/FastCommenter.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7CRPKLHC7G;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FastCommenter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.duneparksoftware.FastCommentLine.FastCommenter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -414,14 +430,14 @@
 				CODE_SIGN_ENTITLEMENTS = FastCommenter/FastCommenter.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 7CRPKLHC7G;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = FastCommenter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.duneparksoftware.FastCommentLine.FastCommenter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
